@@ -1,24 +1,32 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import FormPage from './pages/FormPage';
+import FeedbackForm from './pages/FeedbackForm';  // Import the FeedbackForm component
 import './App.css';
 
 function App() {
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+    document.body.classList.toggle('dark-mode');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header theme={theme} toggleTheme={toggleTheme} />
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<FormPage />} />
+          <Route path="/feedback" element={<FeedbackForm />} />  
+        </Routes>
+      </div>
+      <Footer />
+    </Router>
   );
 }
 
